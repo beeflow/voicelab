@@ -1,0 +1,23 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/voicelab
+    docker:
+      - image: circleci/python:3.8
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+          DATABASE_URL: postgresql://root@localhost/voicelab?sslmode=disable
+          DATABASE_HOST: localhost
+      - image: circleci/postgres:9.6
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: voicelab
+    steps:
+      - checkout  # checkout source code to working directory
+      - run:
+          command: |  # use pipenv to install dependencies
+            python -m venv venv
+            ./venv/bin/pip3 install -r requirements.txt
+      - run:
+          command: |
+            ./venv/bin/python manage.py test

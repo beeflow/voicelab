@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:10.7
+    ports:
+      - 5432:5432
+    volumes:
+      - ./database/postgres:/var/lib/postgresql/data:delegated
+    container_name: voicelab.local
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: voicelab
+
+  rabbit:
+    image: "rabbitmq:3-management"
+    hostname: "rabbit"
+    env_file:
+      - ./env/rabbitmq.env
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    labels:
+      NAME: "rabbitmq"
+    volumes:
+      - "./RabbitMQ/enabled_plugins:/etc/rabbitmq/enabled_plugins"
+
+  vl_server:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./service:/code
+    ports:
+      - 8000:8000
+    env_file:
+      - ./env/python-server.env
+      - ./env/rabbitmq.env
+    depends_on:
+      - postgres
+      - rabbit
+    links:
+      - postgres
+      - rabbit
