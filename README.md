@@ -9,7 +9,8 @@ Zadanie rekrutacyjne
 * przyjęte pliki są kolejkowane w kolejce do przetwarzania
 * dla każdego pliku są obliczane dane potrzebne do wygenerowania tzw. waveform
 * pliki oraz wszystkie obliczone dane (włącznie z metadanymi plików) powinny być archiwizowane w odpowiedni sposób
-* API umożliwia pobieranie wyników, prostej listy statusów przetwarzania oraz generowanie obrazków przedstawiających waveform
+* API umożliwia pobieranie wyników, prostej listy statusów przetwarzania oraz generowanie obrazków przedstawiających 
+waveform
 
 ### Wymagania
 * serwer powinien być asynchroniczny, napisany w języku Python
@@ -17,6 +18,17 @@ Zadanie rekrutacyjne
 * można wykorzystać dockery
 * do serwera powinna być dołączona osobna prosta aplikacja kliencka (bez GUI) komunikująca się z serwerem
 * prosta dokumentacja API
+
+### Uwagi autora
+
+Wybrałem Django ze względu na dostarczane komponenty, których nie musiałem pisać sam. Dodatkowo wszystko umieszczone 
+jest w kontenerach, co znacznie ułatwiło mi pracę. 
+
+Poza tym:
+
+* aplikacja serwerowa uruchamia się automatycznie
+* konsumer kolejki rabbitmq uruchamiany jest ręcznie
+* aplikacja pozbawiona jest wszelakich testów jednostkowych
 
 ## Uruchomienie
 
@@ -28,13 +40,14 @@ Uruchomienie dockerów:
 $ docker-compose up
 ```
 
-Jeżeli serwis nie chce się uruchomić, może okazać się, że docker-compose nie uruchamia serwisów w odpowiedniej kolejności. Wtedy należy uruchomić
+Jeżeli serwis nie chce się uruchomić, może okazać się, że docker-compose nie uruchamia serwisów w odpowiedniej 
+kolejności. Wtedy należy uruchomić
 
 ```bash
 $ docker-compose up postgres rabbit
 ```
 
-a potem 
+a potem
 
 ```bash
 $ docker-compose up vl_server
