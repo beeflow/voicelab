@@ -1,6 +1,6 @@
 # VoiceLab - rest server / client
 
-Zadanie rekrutacyjne 
+Zadanie rekrutacyjne
 
 ## Założenia
 
@@ -46,6 +46,16 @@ $ docker-compose up -d
 
 spowoduje uruchomienie wszystkich kontenerów w tle.
 
+## Przetwarzanie plików
+
+Aby można było przetwarzać pliki wave, należy wejść na system w dockerze
+```bash
+$ docker-compose exec vl_server /bin/bash
+```
+i uruchomić konsumera poprzez polecenie
+```bash
+./manage.py db_queue_consumer
+```
 ## Klient
 
 Skrypt klienta można uruchomić poprzez
